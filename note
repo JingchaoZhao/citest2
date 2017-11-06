@@ -1,0 +1,79 @@
+https://simulatedgreg.gitbooks.io/electron-vue/content/cn/getting_started.html
+https://electron.atom.io/docs/tutorial/quick-start/#renderer-process
+https://github.com/SimulatedGREG/electron-vue
+
+npm install -g vue-cli
+vue init simulatedgreg/electron-vue my-project
+cd my-project
+yarn # 或者 npm install
+yarn run dev # 或者 npm run dev
+
+vue-cli + 有vue-loader 的 webpack + builder + 常用插件（vue-router, vuex）
+
+构建工具  
+	electron-packager  刚开始制作 electron 应用程序或只需要创建简单的可执行文件
+	electron-builder 完整的安装程序、自动更新的支持、使用 Travis CI 和 AppVeyor 的 CI 构建、或本机 node 模块的自动重建，那么你会需要 electron-builder
+
+
+index.ejs: 使用 html-webpack-plugin 创建 index.html, 自动将产品阶段的资源（包括 renderer.js 和 styles.css）注入到最终压缩版的 index.html 中。
+
+
+渲染器进程   Electron 中的每个网页都在自己的进程中运行，称为渲染器进程 (renderer process)。 vue vuex vue-router
+主进程       main进程本质是是一个完整的node环境   
+				src/main/index.js 将介入其中并创建一个的捆绑，electron 也从这里启动， 以 src/main/index.js 作为该捆绑的入口文件。
+				app/src/main/index.dev.js  专门用于开发阶段，因为它会安装 electron-debug 和 vue-devtools。一般不需要修改此文件，但它可以用于扩展你开发的需求。
+
+
+
+webpack
+electron-vue/webpack.main.config.js                ---> 针对main进程
+electron-vue/webpack.renderer.config.js			   ---> 针对人的renderer进程	
+electron-vue/webpack.web.config.js                 ---> electron-vue 不支持更多其他的 Web 输出。 与 Web 输出相关的 Issues 很可能会被推迟或关闭。
+
+入口 index.html
+	在产品阶段，electron-vue 使用 html-webpack-plugin 创建 index.html。在开发过程中，你将在 src/ 目录中找到一个 index.ejs。在这里，你可以更改 HTML 入口文件。这个插件会自动将产品阶段的资源（包括 renderer.js 和 styles.css）注入到最终压缩版的 index.html 中。
+
+
+CDNs: 建议不要使用CDNs
+
+脚手架
+vue-cli + electron (yarn/npm node@^7)
+
+Vue插件
+	axios
+	vue-electron: electron 附加到 Vue对象
+	vue-router
+	vuex
+
+yarn --> 推荐的包管理工具
+NPM
+	npm run build
+	npm run build:web    ---->构建web版本
+	npm run dev
+	
+	npm run lint
+	npm run lint:fix
+
+	npm run pack
+	npm run pack:main
+	npm run pack:renderer
+
+	npm run unit
+	npm run e2e
+	npm test
+
+
+node@^7
+lock in your electron version after scaffolding your project.
+on windows:
+	npm-windows-upgrade                       https://github.com/felixrieseberg/npm-windows-upgrade 检查npm版本确保是最新的
+	npm install --global --production windows-build-tools    / compile native Node modules             https://github.com/felixrieseberg/windows-build-tools （不行可能需要干净的visual studio）
+
+
+使用 CI 的自动化部署
+
+单元测试
+端到端测试
+
+
+迁移指南 并不完善
