@@ -23,7 +23,7 @@
   },
   "build": {
     "productName": "backoffice",
-    "appId": "org.simulatedgreg.electron-vue",
+    "appId": "com.fengniaowu.electron",
     "directories": {
       "output": "build"
     },
